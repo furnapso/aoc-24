@@ -6,24 +6,12 @@ public class DayTwo
     {
         var frequencyMap = new Dictionary<int, int>();
 
-        foreach (var num in data.Right)
+        foreach (var num in data.Right.Where(num => !frequencyMap.TryAdd(num, 1)))
         {
-            if (!frequencyMap.ContainsKey(num))
-            {
-                frequencyMap.Add(num, 1);
-            }
-            else
-            {
-                frequencyMap[num]++;
-            }
+            frequencyMap[num]++;
         }
 
-        var similarityScore = 0;
-
-        foreach (var num in data.Left)
-        {
-            similarityScore += num * frequencyMap.GetValueOrDefault(num, 0);
-        }
+        var similarityScore = data.Left.Sum(num => num * frequencyMap.GetValueOrDefault(num, 0));
 
         Console.WriteLine(similarityScore);
     }
